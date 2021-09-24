@@ -40,18 +40,17 @@
 package authz
 
 import (
-	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/context"
+	"github.com/beego/beego/v2/server/web"
+	"github.com/beego/beego/v2/server/web/context"
 	"github.com/casbin/casbin"
 	"net/http"
 )
 
 // NewAuthorizer returns the authorizer.
 // Use a casbin enforcer as input
-func NewAuthorizer(e *casbin.Enforcer) beego.FilterFunc {
+func NewAuthorizer(e *casbin.Enforcer) web.FilterFunc {
 	return func(ctx *context.Context) {
 		a := &BasicAuthorizer{enforcer: e}
-
 		if !a.CheckPermission(ctx.Request) {
 			a.RequirePermission(ctx.ResponseWriter)
 		}
@@ -72,7 +71,7 @@ func (a *BasicAuthorizer) GetUserName(r *http.Request) string {
 
 // CheckPermission checks the user/method/path combination from the request.
 // Returns true (permission granted) or false (permission forbidden)
-func (a *BasicAuthorizer) CheckPermission(r *http.Request) bool {
+func (a *BasicAuthorizer) CheckPermission(r *http.Request) (bool) {
 	user := a.GetUserName(r)
 	method := r.Method
 	path := r.URL.Path

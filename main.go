@@ -15,19 +15,18 @@
 package main
 
 import (
-	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/plugins/auth"
+	"github.com/beego/beego/v2/server/web"
 	"github.com/casbin/beego-authz/authz"
 	"github.com/casbin/casbin"
 )
 
 func main() {
 	// authenticate every request.
-	beego.InsertFilter("*", beego.BeforeRouter, auth.Basic("alice", "123"))
+	//web.InsertFilter("*", web.BeforeRouter, auth.Basic("alice", "123"))
 
 	// authorize every request.
-	beego.InsertFilter("*", beego.BeforeRouter, authz.NewAuthorizer(casbin.NewEnforcer("authz_model.conf", "authz_policy.csv")))
+	web.InsertFilter("*", web.BeforeRouter, authz.NewAuthorizer(casbin.NewEnforcer("authz_model.conf", "authz_policy.csv")))
 
 	//beego.Router("*", &TestController{})
-	beego.Run()
+	web.Run()
 }
