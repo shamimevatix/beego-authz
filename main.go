@@ -17,12 +17,13 @@ package main
 import (
 	"github.com/beego/beego/v2/server/web"
 	"github.com/casbin/beego-authz/authz"
+	"github.com/casbin/beego-authz/auth"
 	"github.com/casbin/casbin"
 )
 
 func main() {
 	// authenticate every request.
-	//web.InsertFilter("*", web.BeforeRouter, auth.Basic("alice", "123"))
+	web.InsertFilter("*", web.BeforeRouter, auth.Basic("alice", "123"))
 
 	// authorize every request.
 	web.InsertFilter("*", web.BeforeRouter, authz.NewAuthorizer(casbin.NewEnforcer("authz_model.conf", "authz_policy.csv")))
