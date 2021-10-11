@@ -37,7 +37,6 @@ package auth
 
 import (
 	"encoding/base64"
-	"github.com/astaxie/beego"
 	"net/http"
 	"strings"
 
